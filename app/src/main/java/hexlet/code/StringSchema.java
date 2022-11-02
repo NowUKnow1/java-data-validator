@@ -11,15 +11,15 @@ public class StringSchema {
     private final Map<String, Predicate> thingsToValidate = new LinkedHashMap<>();
     private boolean required = false;
 
-    public void setRequired(boolean requirement) {
+    public final void setRequired(boolean requirement) {
         this.required = requirement;
     }
 
-    public boolean isRequired() {
+    public final boolean isRequired() {
         return required;
     }
 
-    public void addThingsToValidate(String valueForCheck, Predicate valueWhereCheck) {
+    public final void addThingsToValidate(String valueForCheck, Predicate valueWhereCheck) {
         thingsToValidate.put(valueForCheck, valueWhereCheck);
     }
 
