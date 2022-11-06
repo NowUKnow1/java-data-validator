@@ -65,4 +65,73 @@ class ValidatorTests {
         assertThat(schema.minLength(Integer.parseInt(minLength)).isValid("test")).isFalse();
 
     }
+
+    @Test
+    public void testNumberSchemaForward() {
+        NumberSchema schema = v.number();
+
+        String testNumber = "10";
+        assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+
+        schema.required();
+
+        assertThat(schema.isValid(null)).isFalse();
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+        assertThat(schema.isValid("5")).isFalse();
+
+        assertThat(schema.positive().isValid(Integer.parseInt(testNumber))).isTrue();
+        assertThat(schema.positive().isValid(-Integer.parseInt(testNumber))).isFalse();
+
+        String min = "5";
+        String  max = "10";
+        schema.range(Integer.parseInt(min), Integer.parseInt(max));
+
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+        testNumber = "5";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+        testNumber = "4";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isFalse();
+        testNumber = "11";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isFalse();
+    }
+
+    @Test
+    public void testNumberSchemaPositiveWithoutRequired() {
+        NumberSchema schema = v.number();
+
+        String testNumber = "10";
+        assertThat(schema.positive().isValid(Integer.parseInt(testNumber))).isTrue();
+        assertThat(schema.positive().isValid(-Integer.parseInt(testNumber))).isFalse();
+        assertThat(schema.isValid(null)).isTrue();
+
+        schema.required();
+
+        assertThat(schema.positive().isValid(Integer.parseInt(testNumber))).isTrue();
+        assertThat(schema.positive().isValid(-Integer.parseInt(testNumber))).isFalse();
+        assertThat(schema.isValid(null)).isFalse();
+    }
+
+
+    @Test
+    public void testNumberSchemaRangeWithoutRequired() {
+        NumberSchema schema = v.number();
+
+        String min = "5";
+        String max = "10";
+        schema.range(Integer.parseInt(min), Integer.parseInt(max));
+
+        String testNumber = "5";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+        testNumber = "10";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+        testNumber = "4";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isFalse();
+        testNumber = "11";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isFalse();
+
+        assertThat(schema.isValid(null)).isFalse();
+        testNumber = "10";
+        assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+    }
 }
