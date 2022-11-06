@@ -2,6 +2,9 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ValidatorTests {
@@ -133,5 +136,49 @@ class ValidatorTests {
         assertThat(schema.isValid(null)).isFalse();
         testNumber = "10";
         assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
+    }
+
+    @Test
+    public void testMapSchemaForward() {
+        MapSchema schema = v.map();
+
+        assertThat(schema.isValid(null)).isTrue();
+
+        Map<String, String> data = new HashMap<>();
+        data.put("key1", "value1");
+        assertThat(schema.isValid(data)).isTrue();
+
+        schema.required();
+
+        assertThat(schema.isValid(null)).isFalse();
+        assertThat(schema.isValid(new HashMap())).isTrue();
+        assertThat(schema.isValid(data)).isTrue();
+
+        String testSize = "2";
+        schema.sizeof(Integer.parseInt(testSize));
+
+        assertThat(schema.isValid(data)).isFalse();
+        data.put("key2", "value2");
+        assertThat(schema.isValid(data)).isTrue();
+    }
+
+
+    @Test
+    public void testMapSchemaSizeofWithoutRequired() {
+        MapSchema schema = v.map();
+
+        String testSize = "1";
+        schema.sizeof(Integer.parseInt(testSize));
+
+        Map<String, String> data = new HashMap<>();
+        data.put("key1", "value1");
+        assertThat(schema.isValid(data)).isTrue();
+
+        testSize = "2";
+        schema.sizeof(Integer.parseInt(testSize));
+        assertThat(schema.isValid(data)).isFalse();
+        data.put("key2", "value2");
+        assertThat(schema.isValid(data)).isTrue();
+
     }
 }
