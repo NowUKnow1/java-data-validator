@@ -7,23 +7,23 @@ public class StringSchema extends BaseSchema {
     }
 
     public final StringSchema required() {
-        addThingsToValidate("required", input -> input instanceof String
+        addThings("required", input -> input instanceof String
                 && !((String) input).isEmpty());
         setRequired(true);
         return this;
     }
 
-    public final StringSchema contains(String sbstr) {
-        Predicate<?> validation = input -> input instanceof String
-                && ((String) input).contains(sbstr);
-        addThingsToValidate("contains", validation);
+    public final StringSchema contains(String substring) {
+        Predicate<?> validationValue = input -> input instanceof String
+                && ((String) input).contains(substring);
+        addThings("contains", validationValue);
         return this;
     }
 
     public final StringSchema minLength(int minLength) {
-        Predicate<?> validation = input ->  input instanceof String
+        Predicate<?> validationValue = input ->  input instanceof String
                 && ((String) input).length() >= minLength;
-        addThingsToValidate("minLength", validation);
+        addThings("minLength", validationValue);
         return this;
     }
 }

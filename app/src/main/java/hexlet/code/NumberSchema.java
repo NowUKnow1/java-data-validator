@@ -7,19 +7,19 @@ public class NumberSchema extends BaseSchema {
     }
 
     public final NumberSchema required() {
-        addThingsToValidate("required", input -> input instanceof Integer);
+        addThings("required", input -> input instanceof Integer);
         setRequired(true);
         return this;
     }
 
     public final NumberSchema positive() {
-        Predicate<?> validation = input -> {
+        Predicate<?> validationValue = input -> {
             if (isRequired() || input instanceof Integer) {
                 return input instanceof Integer && (Integer) input > 0;
             }
             return true;
         };
-        addThingsToValidate("positive", validation);
+        addThings("positive", validationValue);
         return this;
     }
 
@@ -27,7 +27,7 @@ public class NumberSchema extends BaseSchema {
         Predicate<?> validation = input -> input instanceof Integer
                 && (Integer) input >= fromNumber
                 && (Integer) input <= toNumber;
-        addThingsToValidate("range", validation);
+        addThings("range", validation);
         return this;
     }
 }

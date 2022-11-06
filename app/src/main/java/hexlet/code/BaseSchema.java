@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class BaseSchema {
-    private final Map<String, Predicate> thingsToValidate = new LinkedHashMap<>();
+    private final Map<String, Predicate> validatorMap = new LinkedHashMap<>();
     private boolean required = false;
 
     public final void setRequired(boolean requirement) {
@@ -16,11 +16,11 @@ public class BaseSchema {
         return required;
     }
 
-    public final void addThingsToValidate(String valueForCheck, Predicate valueWhereCheck) {
-        thingsToValidate.put(valueForCheck, valueWhereCheck);
+    public final void addThings(String checkValue, Predicate validationValue) {
+        validatorMap.put(checkValue, validationValue);
     }
 
     public final boolean isValid(Object input) {
-        return thingsToValidate.values().stream().allMatch(thing -> thing.test(input));
+        return validatorMap.values().stream().allMatch(thing -> thing.test(input));
     }
 }
