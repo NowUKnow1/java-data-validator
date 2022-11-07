@@ -18,7 +18,7 @@ class ValidatorTests {
 
     @Test
     public void testStringSchemaForward() {
-        StringSchema schema = v.stringSchema();
+        StringSchema schema = v.string();
 
         assertThat(schema.isValid("")).isTrue();
         assertThat(schema.isValid(null)).isTrue();
@@ -42,7 +42,7 @@ class ValidatorTests {
 
     @Test
     public void testStringSchemaMinLength() {
-        StringSchema schema = v.stringSchema();
+        StringSchema schema = v.string();
         String minLength = "4";
         assertThat(schema.minLength(Integer.parseInt(minLength)).isValid("test")).isTrue();
         minLength = "5";
@@ -53,7 +53,7 @@ class ValidatorTests {
 
     @Test
     public void testStringSchemaContainsWithoutRequired() {
-        StringSchema schema = v.stringSchema();
+        StringSchema schema = v.string();
 
         assertThat(schema.contains("wh").isValid("what does the fox say")).isTrue();
         assertThat(schema.contains("what").isValid("what does the fox say")).isTrue();
@@ -64,7 +64,7 @@ class ValidatorTests {
 
     @Test
     public void testStringSchemaMinLengthWithoutRequired() {
-        StringSchema schema = v.stringSchema();
+        StringSchema schema = v.string();
 
         String minLength = "4";
         assertThat(schema.minLength(Integer.parseInt(minLength)).isValid("test")).isTrue();
@@ -75,7 +75,7 @@ class ValidatorTests {
 
     @Test
     public void testNumberSchemaForward() {
-        NumberSchema schema = v.numberSchema();
+        NumberSchema schema = v.number();
 
         String testNumber = "10";
         assertThat(schema.isValid(null)).isTrue();
@@ -105,7 +105,7 @@ class ValidatorTests {
 
     @Test
     public void testNumberSchemaPositiveWithoutRequired() {
-        NumberSchema schema = v.numberSchema();
+        NumberSchema schema = v.number();
 
         String testNumber = "10";
         assertThat(schema.positive().isValid(Integer.parseInt(testNumber))).isTrue();
@@ -122,7 +122,7 @@ class ValidatorTests {
 
     @Test
     public void testNumberSchemaRangeWithoutRequired() {
-        NumberSchema schema = v.numberSchema();
+        NumberSchema schema = v.number();
 
         String min = "5";
         String max = "10";
@@ -144,7 +144,7 @@ class ValidatorTests {
 
     @Test
     public void testMapSchemaForward() {
-        MapSchema schema = v.mapSchema();
+        MapSchema schema = v.map();
 
         assertThat(schema.isValid(null)).isTrue();
 
@@ -169,7 +169,7 @@ class ValidatorTests {
 
     @Test
     public void testMapSchemaSizeofWithoutRequired() {
-        MapSchema schema = v.mapSchema();
+        MapSchema schema = v.map();
 
         String testSize = "1";
         schema.sizeof(Integer.parseInt(testSize));
@@ -187,11 +187,11 @@ class ValidatorTests {
 
     @Test
     public void testMapSchemaSizeofShape() {
-        MapSchema schema = v.mapSchema();
+        MapSchema schema = v.map();
 
         Map<String, BaseSchema> schemas = new HashMap<>();
-        schemas.put("name", v.stringSchema().required());
-        schemas.put("age", v.numberSchema().positive());
+        schemas.put("name", v.string().required());
+        schemas.put("age", v.number().positive());
         schema.shape(schemas);
 
         Map<String, Object> human1 = new HashMap<>();
