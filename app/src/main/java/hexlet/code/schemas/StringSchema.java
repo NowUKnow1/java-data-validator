@@ -5,12 +5,12 @@ import java.util.function.Predicate;
 public class StringSchema extends BaseSchema<String> {
 
     @Override
-    protected boolean isInvalidInput(Object input) {
+    protected final boolean isInvalidInput(Object input) {
         return !(input instanceof String);
     }
 
     @Override
-    protected boolean isEmptyValue(String input) {
+    protected final boolean isEmptyValue(String input) {
         return input == null || input.isEmpty();
     }
 
