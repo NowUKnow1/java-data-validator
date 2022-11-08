@@ -5,6 +5,12 @@ import java.util.function.Predicate;
 public class NumberSchema extends BaseSchema<Integer> {
 
     @Override
+    public final NumberSchema required() {
+        setRequired();
+        return this;
+    }
+
+    @Override
     protected final boolean isInvalidInput(Object input) {
         return !(input instanceof Integer);
     }

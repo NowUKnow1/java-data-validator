@@ -9,10 +9,11 @@ public abstract class BaseSchema<T> {
     private final Map<String, Predicate<T>> validatorMap = new LinkedHashMap<>();
     private boolean required = false;
 
-    public final <Z extends BaseSchema<T>> Z required() {
+    protected final void setRequired() {
         required = true;
-        return (Z) this;
     }
+
+    public abstract BaseSchema<T> required();
 
     protected abstract boolean isInvalidInput(Object input);
 

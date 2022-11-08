@@ -6,6 +6,12 @@ import java.util.function.Predicate;
 public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
 
     @Override
+    public final MapSchema<K, V> required() {
+        setRequired();
+        return this;
+    }
+
+    @Override
     protected final boolean isInvalidInput(Object input) {
         return !(input instanceof Map);
     }
