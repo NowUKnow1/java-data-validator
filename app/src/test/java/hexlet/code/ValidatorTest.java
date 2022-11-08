@@ -137,7 +137,7 @@ class ValidatorTests {
         testNumber = "11";
         assertThat(schema.isValid(Integer.parseInt(testNumber))).isFalse();
 
-        assertThat(schema.isValid(null)).isFalse();
+        assertThat(schema.isValid(null)).isTrue();
         testNumber = "10";
         assertThat(schema.isValid(Integer.parseInt(testNumber))).isTrue();
     }
@@ -155,7 +155,7 @@ class ValidatorTests {
         schema.required();
 
         assertThat(schema.isValid(null)).isFalse();
-        assertThat(schema.isValid(new HashMap())).isTrue();
+        assertThat(schema.isValid(new HashMap())).isFalse();
         assertThat(schema.isValid(data)).isTrue();
 
         String testSize = "2";

@@ -2,32 +2,27 @@ package hexlet.code.schemas;
 
 import java.util.function.Predicate;
 
-public class NumberSchema extends BaseSchema {
-    public NumberSchema() {
+public class NumberSchema extends BaseSchema<Integer> {
+
+    @Override
+    protected boolean isInvalidInput(Object input) {
+        return !(input instanceof Integer);
     }
 
-    public final NumberSchema required() {
-        addThings("required", input -> input instanceof Integer);
-        setRequired(true);
-        return this;
+    @Override
+    protected boolean isEmptyValue(Integer input) {
+        return input == null;
     }
 
     public final NumberSchema positive() {
-        Predicate<?> validationValue = input -> {
-            if (isRequired() || input instanceof Integer) {
-                return input instanceof Integer && (Integer) input > 0;
-            }
-            return true;
-        };
-        addThings("positive", validationValue);
+        Predicate<Integer> validationValue = input -> input > 0;
+        addConditions("positive", validationValue);
         return this;
     }
 
     public final NumberSchema range(int fromNumber, int toNumber) {
-        Predicate<?> validation = input -> input instanceof Integer
-                && (Integer) input >= fromNumber
-                && (Integer) input <= toNumber;
-        addThings("range", validation);
+        Predicate<Integer> validation = input -> input >= fromNumber && input <= toNumber;
+        addConditions("range", validation);
         return this;
     }
 }

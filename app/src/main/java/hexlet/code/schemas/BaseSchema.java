@@ -4,23 +4,38 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class BaseSchema {
-    private final Map<String, Predicate> validatorMap = new LinkedHashMap<>();
+public abstract class BaseSchema<T> {
+    //private Predicate<Object> inputCheck;
+    private final Map<String, Predicate<T>> validatorMap = new LinkedHashMap<>();
     private boolean required = false;
 
-    public final void setRequired(boolean requirement) {
-        this.required = requirement;
+    public final BaseSchema<T> required() {
+        required = true;
+        return this;
     }
 
-    public final boolean isRequired() {
-        return required;
-    }
+    protected abstract boolean isInvalidInput(Object input);
 
-    public final void addThings(String checkValue, Predicate validationValue) {
+    protected abstract boolean isEmptyValue(T input);
+
+    public final void addConditions(String checkValue, Predicate<T> validationValue) {
         validatorMap.put(checkValue, validationValue);
     }
 
     public final boolean isValid(Object input) {
-        return validatorMap.values().stream().allMatch(thing -> thing.test(input));
+        if (input != null && isInvalidInput(input)) {
+            return false;
+        }
+        @SuppressWarnings("unchecked")
+        T castedInput = (T) input;
+        // Если значение обязательно и инпут пустой
+        if (required && isEmptyValue(castedInput)) {
+            return false;
+        }
+        // Если значение не обязательно и инпут пустой
+        if (!required && isEmptyValue(castedInput)) {
+            return true;
+        }
+        return validatorMap.values().stream().allMatch(value -> value.test(castedInput));
     }
 }
