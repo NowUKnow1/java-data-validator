@@ -155,7 +155,7 @@ class ValidatorTests {
         schema.required();
 
         assertThat(schema.isValid(null)).isFalse();
-        assertThat(schema.isValid(new HashMap())).isFalse();
+        assertThat(schema.isValid(new HashMap())).isTrue();
         assertThat(schema.isValid(data)).isTrue();
 
         String testSize = "2";

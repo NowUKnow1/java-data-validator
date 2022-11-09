@@ -18,7 +18,7 @@ public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
 
     @Override
     protected final boolean isEmptyValue(Map<K, V> input) {
-        return input == null || input.isEmpty();
+        return input == null;
     }
 
     public final MapSchema<K, V> sizeof(int size) {
