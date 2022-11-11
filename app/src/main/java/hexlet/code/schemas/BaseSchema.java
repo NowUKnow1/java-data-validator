@@ -27,7 +27,6 @@ public abstract class BaseSchema<T> {
         if (input != null && isInvalidInput(input)) {
             return false;
         }
-        @SuppressWarnings("unchecked")
         T castedInput = (T) input;
         // Если значение обязательно и инпут пустой
         if (required && isEmptyValue(castedInput)) {
